@@ -1,0 +1,117 @@
+﻿@model List<CoursesHomeViewModel>
+@{
+    ViewData["Title"] = "HomePage";
+    Layout = "~/Views/Shared/Layout_student.cshtml";
+    @using OnlineCoursesApp.ViewModel.HomePageViewModels;
+
+}
+<style>
+    /* Basic button styles (similar to Bootstrap's .btn class) */
+    .custom-btn {
+        display: inline-block;
+        font-weight: 400;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        user-select: none;
+        border: 1px solid transparent;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        border-radius: 0.25rem;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    /* Secondary button styles (similar to Bootstrap's .btn-secondary class) */
+    .custom-btn-secondary {
+        color: #fff;
+        background-color: #6c757d; /* Secondary color */
+        border-color: #6c757d;
+    }
+
+        .custom-btn-secondary:hover {
+            color: #fff;
+            background-color: #5a6268; /* Darken on hover */
+            border-color: #545b62;
+        }
+
+        .custom-btn-secondary:focus {
+            outline: none;
+            box-shadow: 0 0 0 0.2rem rgba(130, 138, 145, 0.5);
+        }
+
+</style>
+<main>
+    <div class="main">
+        <h1>Home Page</h1>
+        <p>We are here to help you find the best path to achieve your goals.</p>
+    </div>
+    <!--Search box -->
+    <form method="get" action="@Url.Action("Index", "Home")">
+        <section class="search-container">
+            @using (Html.BeginForm("Index", "Home", FormMethod.Get))
+            {
+                @Html.DropDownList("selectedType", (SelectList)ViewBag.CourseTypes, "All Types", new { @class = "form-control", onchange = "this.form.submit();" })
+            }
+            <span style="display: inline-block; width: 20px;"></span>
+            <input type="text" id="searchQuery" name="searchQuery" placeholder="Search for a course..." class="search-input" />
+            <button type="submit" class="custom-btn btn-primary custom-btn-secondary">Search</button>
+            <span style="display: inline-block; width: 20px;"></span>
+            <a href="@Url.Action("Index", "Home")" class="custom-btn custom-btn-secondary">Reset</a>
+        </section>
+
+    </form>
+    <!-- Dropdown for Course Type filter -->
+    <!-- Dropdown for Course Type filter -->
+ @*    <form method="get" action="/Course/Index">
+        <label for="courseType">Choose Course Type:</label>
+        <select id="courseType" name="selectedType" onchange="this.form.submit()">
+            <option value="">All Types</option>
+            @{
+                @foreach (var type in Enum.GetValues(typeof(CourseType)))
+                {
+                    var selected = Request.QueryString["selectedType"] == type.ToString() ? "selected" : "";
+                    <option value="@type" @selected>@type</option>
+                   
+                }
+            }
+
+        </select>
+    </form> *@
+
+
+
+
+    <!-- Cards Section -->
+    <div class="cards">
+        @{
+            foreach (var course in @Model)
+            {
+
+                <div class="HomeCard-container">
+                    <a href="/student/DisplayHomeCourseContent?courseId=@course.CourseId" class="HomeCard-link">
+                        <div class="HomeCard">
+                            <img src="@course.CourseImage" class="card-img-top" alt="Home Course Photo" style="max-width: 100%; height: auto;">
+                            <h1>@course.CourseName</h1>
+                            <p>By: @course.InstructorName</p>
+                            <p>Number of Students: @course.NumStudent</p>
+                            <p>@course.CourseDescription</p>
+                        </div>
+                    </a>
+                    <form action="/Student/EnrollCourse" method="post" class="enroll-form">
+                        <input type="hidden" name="courseId" value="@course.CourseId" />
+                        <input type="hidden" id="studentId" name="studentId" value="@TempData.Peek("studentId")" />
+                        <button class="enroll-button" type="submit">Enroll</button>
+                    </form>
+
+                </div>
+
+            }
+        }
+
+    </div>
+</main>
+
+

@@ -1,0 +1,75 @@
+﻿@model List<CoursesHomeViewModel>
+@{
+    ViewData["Title"] = "ShowInstructorCourses";
+    @using OnlineCoursesApp.ViewModel.HomePageViewModels;
+
+}
+
+<h1 class="mb-4">Courses for Instructor</h1>
+
+<div class="container">
+    <div class="row">
+        @foreach (var crsVm in Model)
+        {
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <img src="@crsVm.CourseImage" class="card-img-top img-fluid" alt="Course Image">
+                    <div class="card-body">
+                        <h5 class="card-title">@crsVm.CourseName</h5>
+                        <p class="card-text"><strong>Instructor:</strong> @crsVm.InstructorName</p>
+                        <p class="card-text">@crsVm.CourseDescription</p>
+                    </div>
+                    <div class="card-footer">
+                        <p class="text-muted">Number of Students: @crsVm.NumStudent</p>
+                        <a href="/student/DisplayHomeCourseContent?courseId=@crsVm.CourseId" class="btn btn-primary stretched-link">View Course</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+
+<style>
+    /* تحسينات زر View Course */
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+        transform: scale(1.05);
+    }
+
+    /* تأثير التكبير وإضافة ظل عند التمرير على البطاقة */
+    .card {
+        background-color: #f8f9fa; /* لون البطاقة الأساسي */
+        border: 1px solid #dee2e6; /* حدود البطاقة */
+        transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    }
+
+        .card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            background-color: #e9ecef; /* تغيير لون البطاقة عند التمرير */
+        }
+
+    /* صورة الكورس */
+    .card-img-top {
+        object-fit: cover; /* لجعل الصورة تتناسب مع حجم البطاقة */
+        width: 100%; /* عرض الصورة بالكامل */
+        height: 200px; /* تثبيت ارتفاع الصورة */
+        transition: transform 0.3s ease;
+    }
+
+    .card:hover .card-img-top {
+        transform: scale(1.05); /* تكبير الصورة عند التمرير */
+    }
+
+  
+</style>
+
+
+
+
+
+

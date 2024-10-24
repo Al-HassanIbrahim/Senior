@@ -1,0 +1,30 @@
+﻿@model OnlineCoursesApp.ViewModel.InstructorViewModels.SectionEditViewModel
+
+@{
+    ViewData["Title"] = "Edit Section";
+}
+
+<h2>Edit Section</h2>
+
+<form asp-action="SaveSectionEdit" method="post">
+    <input type="hidden" asp-for="SectionId" />
+    <input type="hidden" asp-for="CourseId" />
+
+    <div class="form-group">
+        <label for="title">Section Title</label>
+        <input type="text" id="title" class="form-control" asp-for="Title" required />
+    </div>
+
+    <div class="form-group">
+        <label for="link">Section Link</label>
+        <input type="text" id="link" class="form-control" asp-for="Link" required />
+    </div>
+
+    <div class="form-group">
+        <label for="number">Section Number</label>
+        <input type="number" id="number" class="form-control" asp-for="Number" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a href="@Url.Action("ManageCourse", "Instructor", new { id = Model.CourseId })" class="btn btn-secondary">Cancel</a>
+</form>

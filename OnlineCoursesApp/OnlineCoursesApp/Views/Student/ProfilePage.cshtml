@@ -1,0 +1,95 @@
+﻿@model Student
+
+@{
+    ViewData["Title"] = "HomePage";
+    Layout = "~/Views/Shared/Layout_student.cshtml";
+    @using OnlineCoursesApp.DAL.Models;
+    @using OnlineCoursesApp.ViewModel;
+}
+
+<body class="profile-body">
+    <div class="profile-container">
+        <div class="header">
+            <div class="col-md-3 text-center">
+             
+                <img src="@Model.Image" alt="Student Image" class="profile-img" style="max-width: 150px; margin-bottom: 20px;">
+
+              
+            </div>
+            @if (@Model.Name == null)
+            {
+                <p>Add your name</p>
+            }
+            else
+            {
+                <h1>@Model.Name</h1>
+            }
+            <p>Email: @Model.Email</p>
+            @if (Model.Education != null)
+            {
+                <p>@Model.Education</p>
+            }
+        </div>
+
+        <form class="profile-form" asp-action="SaveProfile" asp-controller="Student" method="post">
+            <input type="hidden" id="StudentId" name="StudentId" value="@Model.StudentId" />
+
+            <div class="input-group">
+                <label for="Name">Name</label>
+                <input type="text" id="Name" name="Name" placeholder="Enter your Name" required>
+            </div>
+
+            <div class="input-group">
+                <label for="Education">Education</label>
+                <input type="text" id="Education" name="Education" placeholder="Enter your Education" required>
+            </div>
+
+            <div class="input-group">
+                <label for="info">Additional Information</label>
+                <textarea id="info" name="info" placeholder="Additional details about yourself..."></textarea>
+            </div>
+
+            <button type="submit" class="Profilebutton">Save</button>
+        </form>
+
+                <form asp-action="UpdateProfilePicture" asp-controller="Student" method="post" enctype="multipart/form-data">
+                    <input type="hidden" asp-for="StudentId" />
+                    <input type="file" asp-for="Image" class="form-control mt-2" />
+                    <button type="submit" class="btn btn-primary mt-3">Update Profile Picture</button>
+                </form>
+    </div>
+</body>
+  
+
+
+@* @model Student
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-3 text-center">
+            <!-- عرض الصورة الشخصية الحالية -->
+            <img src="@Model.Image" alt="Student Image" class="rounded-circle img-fluid shadow" style="max-width: 150px; margin-bottom: 20px;">
+
+            <!-- فورم لرفع صورة جديدة -->
+            <form asp-action="UpdateProfilePicture" asp-controller="Student" method="post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="StudentId" />
+                <input type="file" asp-for="Image" class="form-control mt-2" />
+                <button type="submit" class="btn btn-primary mt-3">Update Profile Picture</button>
+            </form>
+        </div>
+        <div class="col-md-9">
+            <h2>@Model.Name's Profile</h2>
+            <hr class="my-4">
+            <p><strong>Name:</strong> Eng. @Model.Name</p>
+            <p><strong>Email:</strong> <a href="mailto:@Model.Email">@Model.Email</a></p>
+            <p><strong>About:</strong> @Model.About</p> 
+            <a href="/Instructor/Index/@Model.StudentId" class="btn btn-outline-success btn-sm mt-3">View Courses</a>
+        </div>
+    </div>
+</div> 
+
+ *@

@@ -1,0 +1,56 @@
+﻿@using OnlineCoursesApp.DAL.Models  <!-- Import the namespace for CourseStatus -->
+@model List<NewCourseViewModel>
+
+@{
+    ViewData["Title"] = "Admin Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Manage New Courses</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Course ID</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var course in Model)
+
+        {
+            <tr>
+                <td>@course.CourseId</td>
+                <td>@course.Name</td>
+                <td>@course.Type</td>
+                <td>
+                    @if (course.Status == CourseStatus.UnderReview)
+                    {
+                        <span>Under Review</span>
+                    }
+                    else if (course.Status == CourseStatus.Approved)
+                    {
+                        <span>Approved</span>
+                    }
+                    else
+                    {
+                        <span>Rejected</span>
+                    }
+                </td>
+                <td>
+                    @if (course.Status == CourseStatus.UnderReview)
+                    {
+                        <form method="post" action="@Url.Action("ApproveCourse", "Admin", new { courseId = course.CourseId })">
+                            <button type="submit" class="btn btn-success">Approve</button>
+                        </form>
+                        <form method="post" action="@Url.Action("RejectCourse", "Admin", new { courseId = course.CourseId })">
+                            <button type="submit" class="btn btn-danger">Reject</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

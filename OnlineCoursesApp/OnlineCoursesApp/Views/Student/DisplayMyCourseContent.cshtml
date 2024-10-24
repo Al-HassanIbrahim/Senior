@@ -1,0 +1,186 @@
+﻿@model MyCourseContentViewModel
+
+@{
+    ViewData["Title"] = "MyCourses";
+
+    Layout = "~/Views/Shared/Layout_student.cshtml";
+    @using OnlineCoursesApp.ViewModel.CourseViewModels;
+}
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@Model.Name</title>
+    <link rel="stylesheet" href="~/css/DisplayMyCourse.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+</head>
+<style>
+    .custom-btn {
+        display: inline-block;
+        font-weight: 400;
+        color: #fff; /* White text */
+        text-align: center;
+        vertical-align: middle;
+        user-select: none;
+        background-color: #6c757d; /* Secondary color (gray) */
+        border: 1px solid transparent;
+        padding: 0.75rem 1.25rem; /* Padding for large button size */
+        font-size: 1.25rem; /* Font size for large button */
+        line-height: 1.5;
+        border-radius: 0.3rem;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+    }
+
+        .custom-btn:hover {
+            color: #fff;
+            background-color: #5a6268; /* Darker gray on hover */
+            border-color: #545b62;
+        }
+
+        .custom-btn:focus,
+        .custom-btn:active {
+            color: #fff;
+            background-color: #545b62; /* Slightly darker gray for active/focus state */
+            border-color: #4e555b;
+            box-shadow: 0 0 0 0.2rem rgba(130,138,145,0.5); /* Focused button shadow */
+        }
+
+        .custom-btn.active {
+            background-color: #545b62;
+            border-color: #4e555b;
+        }
+
+
+
+    .custom-btn {
+        margin-top: 1rem; /* Space between text and button */
+        padding: 0.75rem 1.25rem; /* Button padding */
+        font-size: 1rem; /* Button font size */
+        background-color: #6c757d; /* Button background color */
+        color: #fff; /* Button text color */
+        border: none; /* Remove default button border */
+        border-radius: 0.3rem; /* Rounded corners */
+        cursor: pointer; /* Pointer cursor for button */
+        transition: background-color 0.3s; /* Transition for hover effect */
+    }
+
+        .custom-btn:hover {
+            background-color: #5a6268; /* Darker color on hover */
+        }
+
+    <!-- instructor card style -->
+    .instructor-card {
+        display: flex; /* Use Flexbox for layout */
+        width: 18rem; /* Fixed width for the card */
+        border: 1px solid #ddd; /* Optional: border for the card */
+        border-radius: 0.3rem; /* Optional: rounded corners */
+        overflow: hidden; /* Ensure content does not overflow */
+    }
+
+    .instructor-image {
+        max-width: 40%; /* Control image width */
+        height: auto; /* Maintain aspect ratio */
+    }
+
+    .instructor-info {
+        padding: 1rem; /* Padding for the text area */
+        display: flex; /* Flex container for text and button */
+        flex-direction: column; /* Stack items vertically */
+        justify-content: center; /* Center content vertically */
+    }
+
+    .instructor-name {
+        font-weight: bold; /* Bold font for the name */
+        margin: 0; /* Remove default margin */
+    }
+
+    .instructor-text {
+        margin: 0.5rem 0; /* Margin for text */
+    }
+
+</style>
+
+
+<body>
+    <div class="course-detail-container">
+        <div class="course-header">
+            <h1>Course Title: @Model.Name</h1>
+            <img src="@Model.Image" class="card-img-top" alt="Instructor Photo" style="max-width: 100%; height: auto;">
+            <br />
+            <p>     </p>
+            <br />
+            <p>Description: @Model.Description</p>
+            <br />
+            <!--<p>Instructor: @Model.InstructorName</p>-->
+        </div>
+
+        <!--Instructor Card-->
+
+        <div style="width: 100%; max-width: 600px;" class="card">
+            <div class="card-body" style="display: flex; align-items: center;">
+                <!-- Instructor Image -->
+                <img src="@Model.InstructorImage" alt="Instructor Photo" style="max-width: 150px; height: auto; margin-right: 20px;">
+
+                <!-- Instructor Details -->
+                <div>
+                    <h5 class="card-title">Osama El Zero</h5>
+                    <p class="card-text">Name: Osama El Zero</p>
+                    <p class="card-text">About: CS</p>
+                    <button onclick="window.location.href='/Instructor/ShowInstructorCourses?instructorId=@Model.InstructorID';" class="custom-btn">View Courses</button>
+                </div>
+            </div>
+        <!-- Progress Bar Section -->
+        <div class="progress">
+            <div class="progress-bar bg-success" role="progressbar"
+                 style="width: @Model.StudentProgress%;"
+                 aria-valuenow="@Model.StudentProgress"
+ 
+                 aria-valuemin="0"
+                 aria-valuemax="100">
+                 @Model.StudentProgress%
+               
+            </div>
+        </div>
+
+        <div class="sessions-container">
+            <h2>Course Sessions</h2>
+
+            @foreach (var sectionStatus in Model.SectionsStatus)
+            {
+
+                var sectionVar = sectionStatus.First;
+
+                var isCompleted = sectionStatus.Second;
+
+                <div class="session-card">
+                    <div class="session-info">
+                        <h3>
+                            @(++(sectionVar.Number) + ". " + sectionVar.Title)
+                          @*   Session @(++sectionVar.Number): @sectionVar.Title *@
+                            @if (isCompleted)
+
+                            {
+                                <span class="badge completed-badge">Completed</span>
+                            }
+
+                            else
+
+                            {
+                                <span class="badge incomplete-badge">In Progress</span>
+                            }
+                        </h3>
+                    </div>
+                    <div class="session-actions">
+                        <button onclick="window.location.href='@Url.Action("DisplaySession", "Student", new {courseId = Model.CourseId, sectionId = sectionVar.SectionId ,isCompleted=isCompleted})'">
+                            Start Session
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS (optional, if needed for other components) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>

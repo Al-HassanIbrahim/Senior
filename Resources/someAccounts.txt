@@ -1,0 +1,17 @@
+=====================
+superAdmin
+Mail:"superAdmin@mail.com"
+Pass:superAdmin
+=====================
+Admin
+Mail:admin@mail.com
+Pass: admin
+=====================
+Student
+Mail:student@mail.com
+Pass:student
+=====================
+Instructor
+Mail:instructor@mail.com
+Pass:instructor
+=====================

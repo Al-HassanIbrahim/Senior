@@ -1,0 +1,31 @@
+﻿@model List<ManageInstructorsViewModel>
+@{
+    ViewData["Title"] = "Admin Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h2>Manage Instructors</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Instructor ID</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var instructor in Model)
+
+        {
+            <tr>
+                <td>@instructor.InstructorId</td>
+                <td>@instructor.Name</td>
+                <td>
+                    <a href="@Url.Action("InstructorDetails", "Admin", new { id = instructor.InstructorId })" class="btn btn-info">Details</a>
+                    <form method="post" action="@Url.Action("DeleteInstructor", "Admin", new { id = instructor.InstructorId })">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
